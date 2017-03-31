@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kubedemo
+        tier: frontend
+    spec:
+      containers:
+      - name: kubedemo-frontend
+        image: kubedemo/kubedemo-frontend:1.1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 16Mi
+          limits:
+            cpu: 250m
+            memory: 64Mi
+        env:
+        - name: BACKEND_URL
+          value: "http://backend:8080/netinfo"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8081
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        ports:
+        - name: http-port
+          containerPort: 8081

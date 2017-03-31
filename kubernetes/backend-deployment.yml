@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: kubedemo
+        tier: backend
+    spec:
+      containers:
+      - name: kubedemo-backend
+        image: kubedemo/kubedemo-backend:1.1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 16Mi
+          limits:
+            cpu: 250m
+            memory: 64Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  labels:
+    app: kubedemo
+    tier: backend
+spec:
+  selector:
+    app: kubedemo
+    tier: backend
+  clusterIP: None
+  ports:
+  - port: 8080
+  selector:
+    app: kubedemo
+    tier: backend
